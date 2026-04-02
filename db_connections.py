@@ -21,28 +21,35 @@ DRIVER_NAME = "iSeries Access ODBC Driver"
 
 
 def get_connection(name: str):
-    if name not in CONNECTIONS:
+    if name == "atv400":
+        # Hardcode trực tiếp cho hệ thống atv400
+        conn_str = (
+            f"DRIVER={{{DRIVER_NAME}}};"
+            "SYSTEM=10.201.6.11;"
+            "UID=MESDBA;"
+            "PWD=mesdba102;"
+            "Prompt=0;"
+            "SIGNON=4;"
+            "Naming=1;"
+            "DefaultLibraries=EMLIB;"
+            "ForceTranslate=1;"
+        )
+    elif name == "atv401":
+        # Hardcode trực tiếp cho hệ thống atv401
+        conn_str = (
+            f"DRIVER={{{DRIVER_NAME}}};"
+            "SYSTEM=10.201.6.21;"
+            "UID=MESPGMR;"
+            "PWD=GLORYAH;"
+            "Prompt=0;"
+            "SIGNON=4;"
+            "Naming=1;"
+            "DefaultLibraries=EMLIB;"
+            "ForceTranslate=1;"
+        )
+    else:
         raise ValueError(f"Unknown connection: {name}")
 
-    cfg = CONNECTIONS[name]
-
-    conn_str = (
-        f"DRIVER={{{DRIVER_NAME}}};"
-        f"SYSTEM={cfg['system']};"
-        f"UID={cfg['user'].strip()};"
-        f"PWD={cfg['password'].strip()};"
-        "Prompt=0;"
-        "SIGNON=4;"
-        "Naming=1;"
-        "DefaultLibraries=EMLIB;"
-        "ForceTranslate=1;"
-    )
-
-    # nếu muốn dùng default library
-    if "default_library" in cfg:
-        conn_str += f"DefaultLibraries={cfg['default_library']};"
-
     conn = pyodbc.connect(conn_str)
-
-    print(f"Connected to {name} ✅")
+    print(f"Connected to {name} (Hardcoded) ✅")
     return conn
