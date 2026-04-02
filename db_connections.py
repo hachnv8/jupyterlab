@@ -29,13 +29,13 @@ def get_connection(name: str):
     conn_str = (
         f"DRIVER={{{DRIVER_NAME}}};"
         f"SYSTEM={cfg['system']};"
-        f"UID={cfg['user']};"
-        f"PWD={cfg['password']};"
+        f"UID={cfg['user'].strip()};"
+        f"PWD={cfg['password'].strip()};"
         "Prompt=0;"
+        "SIGNON=4;"
         "Naming=1;"
         "DefaultLibraries=EMLIB;"
         "ForceTranslate=1;"
-
     )
 
     # nếu muốn dùng default library
